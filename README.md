@@ -28,3 +28,5 @@ Access to these links must be granted from Figma's Share menu.
 - The clickable prototype has not been tested end to end.
 - Detection IDs, coordinates, magnitudes and the spectral profile on Sky View are placeholders.
 - Lecture content comes from "Infrared Astronomy" by Shiraz (30 Oct 2026), marked for personal educational use only. Get permission before sharing it beyond the team.
+- 
+Live site: https://tasnimhosny1402-hash.github.io/nexaris/
