@@ -313,7 +313,7 @@ body{background-attachment:scroll}
   <div class="levels" role="group" aria-label="Explanation level"><button type="button" data-l="Kids (ages 8-12)">Kids</button><button type="button" data-l="School (ages 13-18)" aria-pressed="true">School</button><button type="button" data-l="University">University</button></div>
   <a class="playbtn" href="#play"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2c3 3 4 7 4 11l3 3v3l-4-2h-6l-4 2v-3l3-3c0-4 1-8 4-11Z" fill="currentColor"></path><circle cx="12" cy="10" r="2" fill="#0d1130"></circle><path d="M10 19c.5 2 1.2 3 2 3s1.5-1 2-3" fill="#ffb054"></path></svg>Play</a>
   <span class="chip">NASA Space Apps 2026</span>
-  <span class="chip live">Live agent</span>
+  <span class="chip live">Space agent</span>
 </div></header>
 
 <div class="app">
@@ -353,7 +353,7 @@ body{background-attachment:scroll}
     </div>
     <div class="feats">
       <a class="panel feat" href="#sky"><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8fd3ff" stroke-width="2" stroke-linecap="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z"></path></svg></span><h2>Real sky, real data</h2><p>Open any target in Aladin Lite and flip between visible, near and mid infrared surveys.</p><span class="go">Sky View →</span></a>
-      <a class="panel feat" href="#agent"><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8fd3ff" stroke-width="2" stroke-linejoin="round"><path d="M4 5h16v11H8l-4 4Z"></path></svg></span><h2>A live AI guide</h2><p>Ask anything about space. The agent explains for kids, school or university.</p><span class="go">Ask the agent →</span></a>
+      <a class="panel feat" href="#agent"><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8fd3ff" stroke-width="2" stroke-linejoin="round"><path d="M4 5h16v11H8l-4 4Z"></path></svg></span><h2>A space guide</h2><p>Ask anything about space. The agent explains for kids, school or university.</p><span class="go">Ask the agent →</span></a>
       <a class="panel feat" href="#play"><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ffb054" stroke-width="2" stroke-linejoin="round"><path d="M12 2 4 20l8-4 8 4Z"></path></svg></span><h2>The Odyssey race</h2><p>Fly through five eras, collect planets, dodge asteroids and reach Planet X first.</p><span class="go">Play →</span></a>
       <a class="panel feat" href="#spectral"><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8fd3ff" stroke-width="2" stroke-linecap="round"><path d="M4 4v16h16M7 15c3-9 5-9 7-3s3 4 5 1"></path></svg></span><h2>Why infrared?</h2><p>Drag a star's temperature and watch its light move from blue to infrared.</p><span class="go">Spectral Analysis →</span></a>
       <a class="panel feat" href="#planetx"><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8fd3ff" stroke-width="2"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18ZM12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z"></path></svg></span><h2>Hunt for Planet X</h2><p>Scan a field, match every dot to known catalogs and flag what is left.</p><span class="go">Find Planet X →</span></a>
@@ -435,7 +435,7 @@ body{background-attachment:scroll}
 
   <!-- AGENT -->
   <section class="view" id="v-agent" aria-label="Astronomy Chatbot">
-    <div class="head"><div><div class="eyebrow">AI Agent</div><h1>Ask the NexAris Agent</h1><p>A live assistant for space questions. It explains at your level, names its sources, and says when it is not sure.</p></div></div>
+    <div class="head"><div><div class="eyebrow">AI Agent</div><h1>Ask the NexAris Agent</h1><p>An assistant for space questions. It explains at your level, names its sources, and says when it is not sure.</p></div></div>
     <div class="grid2">
       <div class="panel" style="min-height:520px"><h3>Conversation <span id="lvlTag" style="color:var(--ice)">School level</span></h3>
         <div class="log" id="chatLog" aria-live="polite" style="flex:1;max-height:440px"><div class="msg ai">Hi! I am the NexAris Agent. Ask me about planets, stars, infrared light or SPHEREx.</div></div>
@@ -542,6 +542,50 @@ function route(){const v=VIEWS.includes(location.hash.slice(1))?location.hash.sl
 addEventListener('hashchange',()=>{route();scrollTo({top:0})});
 document.querySelectorAll('.levels button').forEach(b=>b.onclick=()=>{level=b.dataset.l;document.querySelectorAll('.levels button').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'));$('lvlTag').textContent=b.textContent+' level'});
 
+/* ---------- built-in agent (works on any host, no AI service needed) ---------- */
+const KB=[
+ {k:['spherex','sphere x','sphere-x'],a:"SPHEREx is a NASA space telescope that launched in 2025. It maps the whole sky in 102 infrared colors (0.75 to 5 microns), using 6 detectors with 17 bands each. Its maps help scientists study how the universe began, how galaxies grew, and where water ice sits in space. Source: NASA JPL."},
+ {k:['dust','through dust','see through','behind dust'],a:"Infrared light has longer waves than visible light, so it can slip past tiny dust grains that block visible light. That is why an infrared telescope like SPHEREx can see stars being born inside dark dust clouds that look black to our eyes. Source: NASA."},
+ {k:['near infrared','near ir','near-infrared'],a:"Near infrared is the part of infrared closest to red light, about 0.7 to 5 microns. It shows warm stars, starlight from distant galaxies, and stars hidden behind dust. SPHEREx works in this range. Your TV remote also uses near infrared."},
+ {k:['mid infrared','mid ir','mid-infrared'],a:"Mid infrared is about 5 to 40 microns. It shows warm dust around young stars, discs where planets may form, and molecules in space. NASA's James Webb telescope (MIRI camera) and WISE observed in this range."},
+ {k:['far infrared','far ir','far-infrared'],a:"Far infrared is about 40 to 350 microns. It shows very cold dust and gas, only a few tens of degrees above absolute zero. Water vapour in our air absorbs it, so far infrared telescopes must fly high or go to space, like ESA's Herschel."},
+ {k:['difference','near and far','types of infrared','regions','bands'],a:"Think of infrared as three zones. Near infrared (0.7-5 µm) shows warm stars and light from far galaxies. Mid infrared (5-40 µm) shows warm dust and planet-forming discs. Far infrared (40-350 µm) shows the coldest dust and gas. The longer the wave, the colder the object it reveals."},
+ {k:['what is infrared','infrared light','infrared','heat','الأشعة تحت الحمراء','تحت الحمراء'],a:"Infrared is light with waves longer than red light, so our eyes can not see it, but we feel it as heat. William Herschel discovered it in 1800 with a prism and thermometers. Everything warm gives off infrared, which lets telescopes see cold, dark or dusty objects that are invisible in normal light."},
+ {k:['herschel','1800','discover infrared','who discovered'],a:"In 1800 William Herschel split sunlight with a prism and put thermometers under each color. The thermometer just past the red end got the warmest, even though no light was visible there. He had discovered infrared light. He also found Uranus in 1781."},
+ {k:['wavelength','micron','µm','spectrum','electromagnetic'],a:"Light comes in many wavelengths. From short to long: gamma rays, X-rays, ultraviolet, visible light, infrared, microwaves, radio. Infrared runs from about 0.7 microns to about 350 microns (a micron is one thousandth of a millimetre). Open the Spectral page to see where each band sits."},
+ {k:['planck','black body','blackbody','temperature','colour of stars','color of stars'],a:"Every object glows according to its temperature, which scientists describe with a Planck curve. Hot stars peak in blue light, the Sun peaks in visible light, and cold objects peak in infrared. That is why infrared is perfect for cold planets, dust and baby stars. Try the temperature slider on the Spectral page."},
+ {k:['planet x','planet nine','planet 9','hidden planet'],a:"Planet X (often called Planet Nine) is an idea, not a confirmed planet. Some icy objects beyond Neptune have orbits that line up strangely, and a planet several times Earth's mass far out could explain it. Nobody has seen it yet. It would be cold and faint, so infrared surveys are one of the best ways to search. Source: NASA."},
+ {k:['real','exist','confirmed'],a:"Not yet. Planet X is a hypothesis based on the odd orbits of some distant icy objects. Searches with infrared and visible surveys have not found it, and some scientists think the orbits can be explained another way. If it exists, it would be very cold and faint."},
+ {k:['check','new planet','candidate','unmatched','artifact','confirm'],a:"Before calling a dot a new planet, astronomers: 1) rule out image artifacts like cosmic rays or hot pixels, 2) check star and asteroid catalogs such as Gaia, WISE and the Minor Planet Center, 3) confirm it moves the way a distant orbit predicts, using images from several nights, 4) get follow-up images from another telescope. Only then is it a real candidate."},
+ {k:['neptune'],a:"Neptune was found in 1846 using maths. Uranus was moving slightly off its expected path, so Urbain Le Verrier calculated where an unseen planet must be pulling it. Johann Galle pointed a telescope there and found Neptune within one degree of the prediction."},
+ {k:['uranus'],a:"William Herschel discovered Uranus in 1781 with a telescope he built himself. It was the first planet found with a telescope. At first he thought it was a comet. Uranus spins on its side, tilted about 98 degrees."},
+ {k:['pluto','dwarf planet','tombaugh'],a:"Clyde Tombaugh found Pluto in 1930 by blinking between photos of the same sky taken on different nights and spotting a dot that moved. In 2006 it was reclassified as a dwarf planet because it shares its region with many other icy objects in the Kuiper Belt. NASA's New Horizons flew past it in 2015."},
+ {k:['kuiper'],a:"The Kuiper Belt is a ring of icy bodies beyond Neptune, about 30 to 50 times farther from the Sun than Earth. Pluto, Eris and Makemake live there. These objects are cold and faint, which makes infrared useful for studying them."},
+ {k:['mars','red planet'],a:"Mars looks red because its dust is full of iron oxide, which is rust. It has the biggest volcano in the solar system, Olympus Mons, and NASA rovers like Perseverance are searching it for signs of ancient life."},
+ {k:['jupiter','galileo'],a:"Jupiter is the largest planet, more than 1,000 Earths could fit inside. In 1610 Galileo saw four of its moons (Io, Europa, Ganymede, Callisto), which showed that not everything circles the Earth. NASA's Juno spacecraft studies it today."},
+ {k:['saturn','rings'],a:"Saturn's rings are made of billions of pieces of ice and rock. Galileo saw them in 1610 but thought they were 'ears'. Christiaan Huygens explained in 1655 that they were a ring. The Cassini mission studied Saturn from 2004 to 2017."},
+ {k:['wise','neowise'],a:"WISE was a NASA telescope launched in 2009 that mapped the whole sky in four infrared bands. It found cold brown dwarfs and many asteroids, and later as NEOWISE it hunted near-Earth asteroids until 2024. Its maps are in Sky View as the AllWISE layer."},
+ {k:['2mass'],a:"2MASS (Two Micron All Sky Survey) mapped the entire sky in three near infrared bands from two ground telescopes, 1997 to 2001. It catalogued about 470 million sources. You can switch to it in Sky View."},
+ {k:['webb','jwst','james webb'],a:"The James Webb Space Telescope launched in 2021 and is the largest infrared telescope in space. Its 6.5 metre gold mirror sees from 0.6 to 28 microns, showing the first galaxies and the atmospheres of exoplanets. It complements SPHEREx: Webb zooms in, SPHEREx maps everything."},
+ {k:['star','betelgeuse','orion','rigel','sirius','aldebaran','constellation','نجم','نجوم'],a:"Stars look different in infrared. Cool red stars like Betelgeuse in Orion shine brightly in infrared, while hot blue stars like Rigel are brighter in visible light. In Sky View you can switch between DSS2 (visible), 2MASS (near infrared) and AllWISE (mid infrared) to compare the same stars."},
+ {k:['galaxy','galaxies','milky way','universe','big bang','مجرة'],a:"Light from very distant galaxies is stretched to longer wavelengths as the universe expands (redshift), so it arrives as infrared. SPHEREx measures this for about 450 million galaxies to learn how the universe grew right after the Big Bang."},
+ {k:['water','ice'],a:"SPHEREx searches for frozen water, carbon dioxide and other ices in clouds of gas and dust in our galaxy. These ices may be where much of the water in planets, including Earth's oceans, first formed."},
+ {k:['game','play','odyssey','race','how to play','لعبة'],a:"In the NexAris Odyssey you race through 5 eras of planet discovery: Ancient Sky, Telescope, New Planets, Pluto and Infrared. Steer between three lanes with the arrow keys or by tapping, fly into planets to collect them and learn a fact, and avoid asteroids that slow you down. Finish all eras before the rivals to reach Planet X."},
+ {k:['sky view','skyview','aladin','sky map'],a:"Sky View is a planetarium of the real sky. Drag to look around, tap a star or constellation to learn about it, and open it in Aladin Lite to see real survey images: DSS2 in visible light, 2MASS in near infrared, and AllWISE in mid infrared."},
+ {k:['nexaris','this app','this site','what is this','who made','team'],a:"NexAris is a NASA Space Apps project by Team NexAris, designed by Tasneem Hosny. It helps people explore the infrared sky: a live sky view, infrared regions explained simply, a spectrum lab, a discovery game and a planet hunt."},
+ {k:['hello','hi','hey','مرحبا','السلام','اهلا'],a:"Hi! I am the NexAris Agent. Ask me about infrared light, SPHEREx, the planets or Planet X. You can also tap one of the suggested questions."},
+ {k:['thank','thanks','شكرا'],a:"You are welcome! Keep exploring, and try the game to collect all 10 planets."}];
+function kbFind(q){q=' '+q.toLowerCase().replace(/[?!.,]/g,' ')+' ';let best=null,score=0;
+ for(const e of KB){let s=0;for(const w of e.k)if(q.includes(w))s+=w.length+(w.includes(' ')?4:0);if(s>score){score=s;best=e}}return best}
+function kbAnswer(input,key){
+ if(key==='dash'){const got=S?S.learned.map(l=>l.t):[];if(!got.length)return "You have not collected any planets yet. Open Play, race through the five eras and fly into planets to learn about them. Come back here for your summary!";
+  const last=ERAS.find(e=>e.items.some(i=>i.t===got[got.length-1]));return `Great flying! You collected ${got.length} of 10: ${got.join(', ')}. You now know how sky-watchers moved from naked eyes to telescopes to infrared surveys. Your strength: you made it to the ${last?last.name:'first'} era. Next, explore the Spectral page to see why infrared reveals cold worlds like a possible Planet X.`}
+ let q=Array.isArray(input)?input[input.length-1].content:String(input);
+ const m=q.match(/Tell me one surprising thing about (.+?) and how/);if(m){const e=kbFind(m[1]);if(e)return e.a;const it=ALL.find(i=>i.t===m[1]);return it?it.f+' Keep racing to learn more!':"Keep racing to discover more planets!"}
+ const e=kbFind(q);if(e)return e.a;
+ return "I am not sure about that one. I answer questions about infrared light, SPHEREx, the planets, Planet X and this app. Try: \"What is near infrared?\" or \"How was Neptune found?\""}
+async function typeOut(el,text){el.textContent='';const w=text.split(' ');for(let i=0;i<w.length;i++){el.textContent+=(i?' ':'')+w[i];const l=el.closest('.log');if(l)l.scrollTop=1e9;if(i%3===0)await new Promise(r=>setTimeout(r,28))}}
+
 /* ---------- live agent core ---------- */
 let sample=null;const busy=new Set();
 const ERR={not_granted:'The agent is off because AI access was not allowed for this page.',sampling_disabled:'The AI agent is not available for this account.',rate_limited:'Too many questions right now. Wait a moment, then try again.',session_expired:'Sign in again to use the agent.',refused:'I can not answer that one. Try asking differently.',upstream_error:'The answer was interrupted. Try again.'};
@@ -550,7 +594,7 @@ const RULES=extra=>`You are the NexAris Agent inside NexAris, a NASA Space Apps 
 Rules: answer only questions about space, planets, astronomy, infrared light and SPHEREx; politely decline anything else. Explain for this level: ${level}. Under 110 words, plain text, no markdown headings. If unsure, say so; never invent numbers. Name a reliable source (NASA, JPL, ESA, CDS) when useful.
 Facts: SPHEREx observes 0.75-5.0 microns in 102 spectral bands (6 detectors x 17). Near IR 0.7-5 µm, mid IR 5-40 µm, far IR 40-350 µm.
 ${S?`Game progress: stage ${S.stage+1} (${ERAS[S.stage].name}), planets collected: ${S.learned.map(l=>l.t).join(', ')||'none yet'}.`:''}${extra?'\n'+extra:''}`;
-async function agent(input,el,key){if(busy.has(key))return null;if(!sample){el.classList.add('err');el.textContent=NOSAMPLE;return null}
+async function agent(input,el,key){if(busy.has(key))return null;if(!sample){busy.add(key);el.classList.remove('err');el.textContent='Thinking…';await new Promise(r=>setTimeout(r,450));const t=kbAnswer(input,key);await typeOut(el,t);busy.delete(key);return t}
  busy.add(key);el.textContent='Thinking…';
  try{const{text}=await sample(input,{cache:false,modelTier:'quick',onText:({text})=>{el.textContent=text;const l=el.closest('.log');if(l)l.scrollTop=1e9}});return text}
  catch(e){if(e&&e.text){el.textContent=e.text;return e.text}el.classList.add('err');el.textContent=ERR[e&&e.code]||ERR.upstream_error;return null}
@@ -814,7 +858,7 @@ addEventListener('resize',()=>{if(location.hash==='#planetx')drawPX();if(locatio
  sz();addEventListener('resize',sz);requestAnimationFrame(fr)})();
 document.addEventListener('pointermove',e=>{const p=e.target.closest&&e.target.closest('.panel');if(!p)return;const r=p.getBoundingClientRect();p.style.setProperty('--mx',(e.clientX-r.left)+'px');p.style.setProperty('--my',(e.clientY-r.top)+'px')});
 fit();startScreen();pick(T[0],false);renderRange();renderBB(5000);renderMotion(2026);renderChans();route();
-(async()=>{try{sample=window.claude?await window.claude.use('sample'):null}catch(e){sample=null}if(!sample){$('chatNote').textContent=NOSAMPLE}})();
+(async()=>{try{sample=window.claude?await window.claude.use('sample'):null}catch(e){sample=null}if(!sample){$('chatNote').textContent='Built-in agent mode: answers come from the NexAris knowledge base (NASA and JPL facts). Check important facts with NASA.'}})();
 </script>
 
 </body></html>
