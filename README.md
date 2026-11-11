@@ -1,32 +1,56 @@
-# NexAris
+# NexAris Odyssey
 
-NexAris is a NASA Space Apps hackathon project: an interactive web platform concept for exploring NASA SPHEREx all-sky infrared survey data.
+**Explore the infrared universe with NASA's SPHEREx.**
+A NASA Space Apps 2026 project by **Team NexAris**. UI/UX, prototype and front-end by **Tasneem Hosny**.
 
-> Status: UI prototype. All numbers in the prototype are sample data, not SPHEREx measurements, and some controls are visual only.
-
-## Links
-- Prototype: https://www.figma.com/proto/2QfrGsR3XtffukJpkDDgjj?node-id=3-16
-- Figma file: https://www.figma.com/design/2QfrGsR3XtffukJpkDDgjj
-
-Access to these links must be granted from Figma's Share menu.
-
-## Screens
-1. Sky View
-2. Orion Compare
-3. Detection Results
-4. Spectral Analysis
-5. Data Explorer
-6. Infrared Basics
-
-## Handoff notes
-- Font: Inter. Design width: 1440 px, desktop.
-- Colors are stored as variables in the Figma file (collection "NexAris Colors").
-- Images are placeholders until they are added in Figma.
-- Buttons, tables and cards are not reusable Figma components yet.
-- Loading, error and empty states are not designed.
-- Settings and My Objects screens are not designed.
-- The clickable prototype has not been tested end to end.
-- Detection IDs, coordinates, magnitudes and the spectral profile on Sky View are placeholders.
-- Lecture content comes from "Infrared Astronomy" by Shiraz (30 Oct 2026), marked for personal educational use only. Get permission before sharing it beyond the team.
-- 
 Live site: https://tasnimhosny1402-hash.github.io/nexaris/
+
+## What's inside
+
+| View | What it does |
+|---|---|
+| Home | Project intro and feature overview |
+| Sky View | Interactive planetarium: drag the sky, tap stars and constellations, open real survey images in Aladin Lite (DSS2, 2MASS, AllWISE) |
+| Infrared Regions | Near, mid and far infrared explained with everyday analogies |
+| Spectral Analysis | Prism spectrum of SPHEREx's 102 bands and a Planck temperature curve |
+| Data Explorer | Sample detections table (sample data, marked) |
+| Astronomy Chatbot | Space agent that answers infrared and astronomy questions |
+| Motion / Planet X | Star motion over time and a simulated planet hunt |
+| Dashboard / Mind map | Game progress and topic map |
+| Play | NexAris Odyssey race game through 5 eras of planet discovery |
+
+## Files
+
+```
+index.html   page structure and content
+style.css    all styles (colors, layout, mobile)
+script.js    app logic (views, sky, spectrum, game, agent)
+```
+
+No build step. Open `index.html` in a browser, or serve the folder with any static server.
+
+## Connecting the backend
+
+The chatbot currently answers from a built-in knowledge base inside `script.js`.
+To connect a real AI backend, set `API_URL` at the **BACKEND HOOK** section in `script.js`.
+
+The page sends:
+
+```json
+POST API_URL
+{ "question": "What is near infrared?", "level": "School (ages 13-18)", "history": [] }
+```
+
+and expects:
+
+```json
+{ "answer": "Near infrared is ..." }
+```
+
+If the request fails, the built-in answers are used as a fallback.
+
+## Notes
+
+- Game rivals are simulated. Detections and Planet X data are sample data.
+- Sky images come from Aladin Lite (CDS), DSS2, 2MASS and AllWISE.
+- Code was written with AI assistance.
