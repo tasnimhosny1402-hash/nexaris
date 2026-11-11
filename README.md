@@ -39,6 +39,7 @@ The page sends:
 ```json
 POST API_URL
 { "question": "What is near infrared?", "level": "School (ages 13-18)", "history": [] }
+
 ```
 
 and expects:
