@@ -1,0 +1,11 @@
+node_modules/
+.next/
+out/
+*.log
+.env*.local
+next-env.d.ts
+
+# GhostShift data: published to Cloudflare R2, not kept in git
+public/ghostshift/
+
+.vercel
