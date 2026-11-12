@@ -48,7 +48,7 @@ export default function NexarisApp() {
             <div className="copy">
               <div className="eyebrow">NASA Space Apps 2026 · Team NexAris</div>
               <h1>See the universe in <em>102 colors</em> of infrared</h1>
-              <p className="lede">NexAris turns NASA's SPHEREx all-sky survey into something anyone can explore. Look at real infrared skies, ask a live AI guide, and race through 400 years of finding planets.</p>
+              <p className="lede">NexAris turns NASA's SPHEREx all-sky survey into something anyone can explore. Look at real infrared skies, ask the NexAris space guide, and race through 400 years of finding planets.</p>
               <div className="ctas"><a className="btn" href="#play">Play the Odyssey</a><a className="btn ghost" href="#sky">Explore the sky</a></div>
             </div>
             <div className="art"><div className="orbitline"></div><img alt="NexAris logo over Earth at sunrise" src="/hero.jpg" /></div>
@@ -122,7 +122,7 @@ export default function NexarisApp() {
       
         {/* MOTION */}
         <section className="view" id="v-motion" aria-label="Motion History">
-          <div className="head"><div><div className="eyebrow">AI Agent</div><h1>Barnard's Star on the move</h1><p>The fastest-moving star in our sky. Slide through the years to see where it was and where it will be. Motion is magnified 400× so you can see it.</p></div></div>
+          <div className="head"><div><div className="eyebrow">AI Agent</div><h1>Barnard's Star on the move</h1><p>The fastest-moving star in our sky. Slide through the years to see where it was and where it will be. The motion is magnified so you can see it.</p></div></div>
           <div className="grid2">
             <div className="panel"><h3>Sky position <span id="yrTag" style={{color:"var(--flare)"}}>2026</span></h3>
               <svg className="chart" id="mvSvg" viewBox="0 0 640 380" role="img" aria-label="Path of Barnard's Star" style={{borderRadius:"14px",background:"#03040f"}}></svg>
@@ -133,7 +133,7 @@ export default function NexarisApp() {
               <dl className="kv"><dt>Type</dt><dd>Red dwarf</dd><dt>Distance</dt><dd>5.96 light years</dd><dt>Proper motion</dt><dd>10.4″ per year</dd><dt>Shift since 2026</dt><dd id="mvShift">0″</dd></dl>
               <p style={{color:"#d9def5"}}>In a human lifetime Barnard's Star moves about a quarter of the Moon's width across the sky. Stars drift over years; asteroids move in hours.</p>
               <p className="note">Positions are a straight-line estimate from proper motion, magnified for display.</p>
-              <div className="links"><a href="https://aladin.cds.unistra.fr/AladinLite/?target=269.4521%204.6934&amp;fov=0.1&amp;survey=CDS%2FP%2F2MASS%2Fcolor" target="_blank" rel="noopener"><i style={{'--c':"var(--good)"}}></i>See it in 2MASS ↗</a></div>
+              <div className="links"><a href="https://aladin.cds.unistra.fr/AladinLite/?target=17%2057%2048.50%20%2B04%2041%2036.2&amp;fov=0.25&amp;survey=P%2F2MASS%2Fcolor" target="_blank" rel="noopener"><i style={{'--c':"var(--good)"}}></i>See it in 2MASS ↗</a></div>
             </div>
           </div>
         </section>

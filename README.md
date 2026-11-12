@@ -1,10 +1,9 @@
-# NexAris
+# NexAris Odyssey
 
-NexAris is a NASA Space Apps hackathon project: an interactive web platform concept for exploring NASA SPHEREx all-sky infrared survey data.
+**Explore the infrared universe with NASA's SPHEREx.**
+A NASA Space Apps 2026 project by **Team NexAris**. UI/UX, prototype and front-end by **Tasneem Hosny**.
 
-> Status: UI prototype. All numbers in the prototype are sample data, not SPHEREx measurements, and some controls are visual only.
-
-**Live site:** https://nexaris-cyan.vercel.app
+**Live site:** https://nexaris-cyan.vercel.app (the old address https://tasnimhosny1402-hash.github.io/nexaris/ redirects there)
 
 ## How to deploy (for the whole team)
 You never run a deploy command. Vercel watches this repository:
@@ -22,13 +21,27 @@ Rules of thumb:
 
 Updating the SPHEREx movers data is a different, rare step done on the machine that runs the GhostShift pipeline. See **Deployment** below.
 
-## Run it (Next.js)
+## What's inside
+
+| View | What it does |
+|---|---|
+| Home | Project intro and feature overview |
+| Sky View | Real sky in Aladin Lite (DSS2, 2MASS, AllWISE), your own FITS images, and real SPHEREx movers from the GhostShift pipeline with motion playback |
+| Infrared Regions | Near, mid and far infrared explained with everyday analogies |
+| Spectral Analysis | Prism spectrum of SPHEREx's 102 bands and a Planck temperature curve |
+| Data Explorer | SPHEREx channels (sample data, marked) |
+| Astronomy Chatbot | Space agent that answers infrared and astronomy questions |
+| Motion / Planet X | Star motion over time and a simulated planet hunt, with a link to the real movers |
+| Dashboard / Mind map | Game progress and topic map |
+| Play | NexAris Odyssey race game through 5 eras of planet discovery |
+
+## Run it locally (Next.js)
 Needs Node.js 20 or newer.
 
 ```bash
 npm install
 npm run dev                  # http://localhost:3000
-npm run build && npm start   # production
+npm run build && npm start   # production build
 ```
 
 ### Project layout
@@ -36,36 +49,55 @@ npm run build && npm start   # production
 - `app/api/fits/route.js`: server proxy so FITS files from servers without CORS headers can be opened
 - `components/NexarisApp.jsx`: app shell and all views (hash navigation: `#home`, `#sky`, `#play`, ...)
 - `components/SkyView.jsx`: Sky View built on [Aladin Lite v3](https://aladin.cds.unistra.fr/AladinLite/) (npm `aladin-lite`)
-- `lib/legacy.js`: the original app logic (agent, game, charts), unchanged from the prototype
+- `components/sky/`, `lib/movers.js`: SPHEREx movers (layers, playback, panel)
+- `lib/legacy.js`: the prototype's app logic (agent, game, charts) running inside the Next.js app
 - `lib/sky-data.js`: targets, surveys, bright stars and constellations
-- `legacy/prototype.html`: the original single-file prototype, kept for reference
-- `index.html`: redirects the old GitHub Pages address to the live site (not part of the Next.js app)
+- `legacy/`: the static prototype (`index.html`, `style.css`, `script.js`), kept for reference
+- `index.html` (repo root): redirects the old GitHub Pages address to the live site (not part of the Next.js app)
 - `.github/workflows/build.yml`: the Build check run on every pull request
 
 ### Sky View
 - Real survey images: DSS2 (visible), 2MASS (near IR) and AllWISE (mid IR), loaded from the ESA ESASky mirrors of the CDS HiPS.
 - FITS images: open a local file, drop it on the map, or paste a URL. The image needs a celestial WCS header. Opacity, colormap and stretch can be set per image.
-- Loading a FITS file from a URL uses the `/api/fits` route, so it needs the Next.js server. It does not work on a static host such as GitHub Pages. Local files work everywhere.
+- Loading a FITS file from a URL uses the `/api/fits` route (limit 100 MB), so it needs the Next.js server. Local files work everywhere.
 
-### Movers (GhostShift pilot)
-Real SPHEREx results from the GhostShift pipeline (separate project, `python -m ghostshift.run ... --dest public/ghostshift`).
-- `public/ghostshift/`: HiPS layers (`hips/deep`, `hips/movers`), `movers/index.json`, one file per sky tile in `movers/tiles/`, stamp strips in `movers/stamps/`, and `moc.json` (processed area).
-- The Sky View loads only the tiles near the current view as you pan and zoom (`components/sky/useGhostShift.js`), lists what is in view or inside a dragged box (`components/sky/MoversPanel.jsx`), and shows a blink of each mover's visits.
+### Movers (GhostShift)
+Real SPHEREx results from the GhostShift pipeline (separate project). Six fields along the ecliptic, 225 sky tiles.
+- The Sky View loads only the tiles near the current view as you pan and zoom (`components/sky/useGhostShift.js`), lists what is in view or inside a dragged box (`components/sky/MoversPanel.jsx`), and plays each mover's motion between its SPHEREx visits.
 - Classes: green = known asteroid, orange = unidentified mover (3+ visits on a line), violet = barely moving, grey = unconfirmed single detection (hidden by default).
-- Everything is static files, so this part also works on a static host.
-- Code: `components/sky/`, `lib/movers.js`.
+- Data layout: HiPS layers (`hips/deep`, `hips/movers`), `movers/index.json`, one file per sky tile in `movers/tiles/`, stamp strips in `movers/stamps/`, `moc.json`.
+
+## Connecting the backend
+
+The chatbot currently answers from a built-in knowledge base.
+To connect a real AI backend, set `API_URL` at the **BACKEND HOOK** section in `lib/legacy.js` (in the static prototype: `legacy/script.js`).
+
+The page sends:
+
+```json
+POST API_URL
+{ "question": "What is near infrared?", "level": "School (ages 13-18)", "history": [] }
+```
+
+and expects:
+
+```json
+{ "answer": "Near infrared is ..." }
+```
+
+If the request fails, the built-in answers are used as a fallback.
 
 ## Deployment
 - **App:** Vercel, team `tasneem24` (Hobby plan). Production: https://nexaris-cyan.vercel.app. Deploys automatically from this GitHub repo (see "How to deploy" above); the command below is only a manual fallback.
 - **GhostShift data:** Cloudflare R2 bucket `nexaris-ghostshift`, public at `https://pub-26ea368373434497ab9344264e063a9a.r2.dev` (CORS: read-only, any origin). The app reads it through `NEXT_PUBLIC_GHOSTSHIFT_BASE`, which is set on the Vercel project and baked in at build time.
 - `public/ghostshift` is only for local development; it is excluded from git (`.gitignore`) and from Vercel uploads (`.vercelignore`).
 
-Redeploy the app (needs `VERCEL_TOKEN`):
+Manual redeploy (needs `VERCEL_TOKEN`):
 ```bash
 vercel deploy --prod --scope tasneem24 --token $VERCEL_TOKEN \
   --build-env NEXT_PUBLIC_GHOSTSHIFT_BASE=https://pub-26ea368373434497ab9344264e063a9a.r2.dev
 ```
-Update the data after a pipeline run (in the GhostShift project; needs `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID` and `boto3`):
+Update the movers data after a pipeline run (in the GhostShift project; needs `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID` and `boto3`):
 ```bash
 python -m ghostshift.run publish        # rebuild pilot_out
 python -m ghostshift.upload             # sync pilot_out to R2: only changed files are sent
@@ -74,29 +106,8 @@ The site picks up new data on reload; no app redeploy is needed.
 
 R2's `r2.dev` address is rate-limited and meant for light use. For heavy traffic, attach a custom domain to the bucket in Cloudflare and update `NEXT_PUBLIC_GHOSTSHIFT_BASE`.
 
-## Links
-- Prototype: https://www.figma.com/proto/2QfrGsR3XtffukJpkDDgjj?node-id=3-16
-- Figma file: https://www.figma.com/design/2QfrGsR3XtffukJpkDDgjj
+## Notes
 
-Access to these links must be granted from Figma's Share menu.
-
-## Screens
-1. Sky View
-2. Orion Compare
-3. Detection Results
-4. Spectral Analysis
-5. Data Explorer
-6. Infrared Basics
-
-## Handoff notes
-- Font: Inter. Design width: 1440 px, desktop.
-- Colors are stored as variables in the Figma file (collection "NexAris Colors").
-- Images are placeholders until they are added in Figma.
-- Buttons, tables and cards are not reusable Figma components yet.
-- Loading, error and empty states are not designed.
-- Settings and My Objects screens are not designed.
-- The clickable prototype has not been tested end to end.
-- Detection IDs, coordinates, magnitudes and the spectral profile on Sky View are placeholders.
-- Lecture content comes from "Infrared Astronomy" by Shiraz (30 Oct 2026), marked for personal educational use only. Get permission before sharing it beyond the team.
-- 
-Live site: https://tasnimhosny1402-hash.github.io/nexaris/
+- Game rivals are simulated. Planet X field and Data Explorer use sample data (marked). The movers in Sky View are real SPHEREx detections.
+- Sky images come from Aladin Lite (CDS), DSS2, 2MASS and AllWISE (ESA ESASky mirrors).
+- Code was written with AI assistance.
