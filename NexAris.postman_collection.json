@@ -1,0 +1,40 @@
+{
+  "info": {
+    "name": "NexAris Data (no API)",
+    "description": "NexAris does not use a backend API. The site reads static JSON data files directly from a public Cloudflare R2 bucket (read-only, CORS open to any origin). No authentication is needed.\n\nThese requests are plain file downloads (GET), useful for checking the data the Space Agent can read.\n\nData base URL: https://pub-26ea368373434497ab9344264e063a9a.r2.dev\nLive site: https://nexaris-cyan.vercel.app",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "dataUrl", "value": "https://pub-26ea368373434497ab9344264e063a9a.r2.dev" },
+    { "key": "npix", "value": "0", "description": "Sky tile number. Take a real value from movers/index.json." }
+  ],
+  "item": [
+    {
+      "name": "Movers index",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": { "raw": "{{dataUrl}}/movers/index.json", "host": ["{{dataUrl}}"], "path": ["movers", "index.json"] },
+        "description": "Index of the SPHEREx movers data (lists the available sky tiles). Start here."
+      }
+    },
+    {
+      "name": "Movers in one sky tile",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": { "raw": "{{dataUrl}}/movers/tiles/{{npix}}.json", "host": ["{{dataUrl}}"], "path": ["movers", "tiles", "{{npix}}.json"] },
+        "description": "All movers in one sky tile. Returns { movers: [...] }. Each mover has a class: known (known asteroid), tracklet (unidentified mover), slow (barely moving) or single (unconfirmed, 1 visit). Set the npix variable to a tile number from the index."
+      }
+    },
+    {
+      "name": "Coverage map (MOC)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": { "raw": "{{dataUrl}}/moc.json", "host": ["{{dataUrl}}"], "path": ["moc.json"] },
+        "description": "Which parts of the sky have SPHEREx data."
+      }
+    }
+  ]
+}
