@@ -1,0 +1,28 @@
+# Build check: every pull request and every push to main must build.
+# Deploying itself is done by Vercel's GitHub connection (merge to main = live site).
+name: Build
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+        env:
+          NEXT_TELEMETRY_DISABLED: 1
+          NEXT_PUBLIC_GHOSTSHIFT_BASE: https://pub-26ea368373434497ab9344264e063a9a.r2.dev
